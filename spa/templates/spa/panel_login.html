@@ -1,0 +1,36 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Acceso Helen{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Acceso panel Helen</h2>
+      <p>Inicia sesión para ver y gestionar las citas agendadas.</p>
+    </div>
+
+    <div class="form-agendamiento" style="max-width: 420px;">
+      {% if form.errors %}
+        <div class="errores" style="margin-bottom: 14px;">
+          Usuario o contraseña incorrectos. Intenta de nuevo.
+        </div>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="campo">
+          <label for="{{ form.username.id_for_label }}">Usuario</label>
+          {{ form.username }}
+        </div>
+        <div class="campo">
+          <label for="{{ form.password.id_for_label }}">Contraseña</label>
+          {{ form.password }}
+        </div>
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff; width:100%;">
+          Ingresar
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "spa/base.html" %}
+{% load static %}
+{% block titulo %}Quién soy{% endblock %}
+{% block nav_quien_soy %}activo{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Quién soy</h2>
+      <p>Conóceme un poco más</p>
+    </div>
+    <div class="perfil">
+      <div class="perfil-foto" style="padding:0; overflow:hidden;">
+        <img src="{% static 'spa/img/helen-perfil.png' %}" alt="Helen, especialista en cosmetología y estética integral" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+      </div>
+      <div class="perfil-texto">
+        <h2>Helen, especialista en Cosmetología y Estética Integral</h2>
+        <p>
+          Cosmetología y Estética Integral con más de 12 años de experiencia en el sector de
+          la belleza, el bienestar y la salud estética, desempeñando funciones en tratamientos
+          faciales y corporales, masajes relajantes, descontracturantes y terapéuticos,
+          protocolos wellness, reducción y moldeo corporal, drenaje linfático, limpieza facial
+          profunda y asesoría integral en cuidado personal.
+        </p>
+        <p>
+          Cuento con vocación por la enseñanza y la formación de nuevos profesionales,
+          destacándome por mi capacidad para transmitir conocimientos teóricos y prácticos de
+          manera clara, dinámica y orientada al aprendizaje significativo. Poseo habilidades
+          para guiar, motivar y acompañar a los estudiantes en el desarrollo de competencias
+          técnicas, fomentando el cumplimiento de protocolos, normas de bioseguridad, ética
+          profesional y excelencia en el servicio al cliente.
+        </p>
+        <p>
+          Me caracterizo por ser una persona responsable, empática, paciente y comprometida con
+          la formación integral de los alumnos, promoviendo ambientes de aprendizaje
+          participativos y enfocados en la mejora continua. Mi experiencia en atención al
+          cliente y bienestar integral me permite aportar una visión práctica y actualizada del
+          ejercicio profesional, contribuyendo al fortalecimiento de las competencias laborales
+          de los futuros técnicos en cosmetología y estética.
+        </p>
+        <a href="{% url 'spa:agendamiento' %}" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff;">Agenda tu cita conmigo</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

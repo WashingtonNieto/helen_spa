@@ -1,0 +1,16 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Cita registrada{% endblock %}
+{% block nav_agendamiento %}activo{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container" style="text-align:center;">
+    <div class="section-title">
+      <h2>¡Gracias! 🌿</h2>
+      <p>Tu solicitud de cita fue registrada correctamente. Nos pondremos en contacto contigo para confirmarla.</p>
+    </div>
+    <a href="{% url 'spa:inicio' %}" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff;">Volver al inicio</a>
+    <a href="{% url 'spa:servicios' %}" class="btn btn-outline" style="border-color: var(--verde-oscuro); color: var(--verde-oscuro);">Ver más servicios</a>
+  </div>
+</section>
+{% endblock %}
