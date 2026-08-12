@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block titulo %}Helen Spa{% endblock %} | Helen Spa - Masoterapia</title>
+<meta name="description" content="Helen Spa: maderoterapia, drenaje linfático, masajes y tratamientos corporales. Agenda tu cita en línea.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'spa/css/style.css' %}">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="{% url 'spa:inicio' %}" class="brand">Helen Spa<span>Masoterapia &amp; bienestar</span></a>
+    <button class="nav-toggle" aria-label="Abrir menú">&#9776;</button>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="{% url 'spa:inicio' %}" class="{% block nav_inicio %}{% endblock %}">Inicio</a></li>
+        <li><a href="{% url 'spa:servicios' %}" class="{% block nav_servicios %}{% endblock %}">Servicios</a></li>
+        <li><a href="{% url 'spa:quien_soy' %}" class="{% block nav_quien_soy %}{% endblock %}">Quién soy</a></li>
+        <li><a href="{% url 'spa:agendamiento' %}" class="{% block nav_agendamiento %}{% endblock %}">Agendar cita</a></li>
+        <li><a href="{% url 'spa:galeria' %}" class="{% block nav_galeria %}{% endblock %}">Galería</a></li>
+        <li><a href="{% url 'spa:mis_citas' %}" class="{% block nav_mis_citas %}{% endblock %}">Mis citas</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  {% if messages %}
+  <div class="mensajes">
+    {% for message in messages %}
+      <div class="alerta {% if message.tags == 'success' %}alerta-success{% elif message.tags == 'error' %}alerta-error{% else %}alerta-info{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% block contenido %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h4>Helen Spa</h4>
+      <p>Tu bienestar, nuestra prioridad. Tratamientos corporales y de relajación con atención personalizada.</p>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <p>Tel/WhatsApp: {{ negocio.telefono|default:"+57 300 518 0354" }}<br>
+      {{ negocio.email|default:"cordobatamayohelen@gmail.com" }}<br>
+      {{ negocio.direccion|default:"Soacha, Colombia" }}</p>
+    </div>
+    <div>
+      <h4>Horario de atención</h4>
+      <p>Lunes a viernes: 10:00 am - 4:00 pm<br>Sábados: 10:00 am - 2:00 pm<br>Domingos: cerrado</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; {% now "Y" %} Helen Spa. Todos los derechos reservados. ·
+    <a href="{% url 'spa:panel_citas' %}" style="color:#cfd8d2;">Panel Helen</a>
+  </div>
+</footer>
+
+<a class="whatsapp-flotante" href="https://wa.me/573005180354" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">&#128222;</a>
+
+<script src="{% static 'spa/js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

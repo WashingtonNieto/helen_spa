@@ -1,0 +1,100 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Agendar cita{% endblock %}
+{% block nav_agendamiento %}activo{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Agenda tu cita</h2>
+      <p>Elige el servicio, la fecha y la hora que prefieras.</p>
+    </div>
+
+    <div class="form-agendamiento">
+      <div class="horario-info">
+        <strong>Horario de atención:</strong><br>
+        Lunes a viernes: 10:00 am - 4:00 pm<br>
+        Sábados: 10:00 am - 2:00 pm<br>
+        Domingos: cerrado
+      </div>
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="errores">
+            {% for error in form.non_field_errors %}{{ error }}<br>{% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="campo">
+          <label for="{{ form.nombre_cliente.id_for_label }}">{{ form.nombre_cliente.label }}</label>
+          {{ form.nombre_cliente }}
+          {% for error in form.nombre_cliente.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="campo">
+          <label for="{{ form.telefono.id_for_label }}">{{ form.telefono.label }}</label>
+          {{ form.telefono }}
+          {% for error in form.telefono.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="campo">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% for error in form.email.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="campo">
+          <label for="{{ form.servicio.id_for_label }}">{{ form.servicio.label }}</label>
+          {{ form.servicio }}
+          {% for error in form.servicio.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="campo">
+          <label for="{{ form.fecha.id_for_label }}">{{ form.fecha.label }}</label>
+          {{ form.fecha }}
+          {% for error in form.fecha.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="campo">
+          <label for="{{ form.hora.id_for_label }}">{{ form.hora.label }}</label>
+          {{ form.hora }}
+          {% for error in form.hora.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="campo">
+          <label for="{{ form.notas.id_for_label }}">{{ form.notas.label }}</label>
+          {{ form.notas }}
+          {% for error in form.notas.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff; width:100%;">
+          Confirmar solicitud de cita
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Deshabilita los domingos en el selector de fecha y avisa si eligen sábado con hora fuera de rango.
+  document.addEventListener('DOMContentLoaded', function () {
+    var fechaInput = document.querySelector('#{{ form.fecha.id_for_label }}');
+    if (fechaInput) {
+      fechaInput.addEventListener('input', function () {
+        var valor = fechaInput.value;
+        if (!valor) return;
+        var partes = valor.split('-').map(Number);
+        var fecha = new Date(partes[0], partes[1] - 1, partes[2]);
+        if (fecha.getDay() === 0) {
+          alert('Lo sentimos, los domingos no atendemos. Por favor elige de lunes a sábado.');
+          fechaInput.value = '';
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

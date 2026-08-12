@@ -1,0 +1,49 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Mis citas{% endblock %}
+{% block nav_mis_citas %}activo{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Consulta tu cita</h2>
+      <p>Ingresa el teléfono con el que agendaste para ver el estado de tu(s) cita(s).</p>
+    </div>
+
+    <div class="form-agendamiento" style="max-width: 480px;">
+      <form method="get">
+        <div class="campo">
+          <label for="{{ form.telefono.id_for_label }}">{{ form.telefono.label }}</label>
+          {{ form.telefono }}
+          {% for error in form.telefono.errors %}<div class="errores">{{ error }}</div>{% endfor %}
+        </div>
+        <button type="submit" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff; width:100%;">
+          Buscar mi cita
+        </button>
+      </form>
+    </div>
+
+    {% if buscado %}
+      <div style="max-width: 700px; margin: 34px auto 0;">
+        {% if citas %}
+          {% for cita in citas %}
+          <div class="card-servicio" style="border-top-color: var(--verde-oscuro); margin-bottom: 16px;">
+            <h3>{{ cita.servicio.nombre }}</h3>
+            <p>
+              <strong>Fecha:</strong> {{ cita.fecha|date:"l, d \d\e F \d\e Y" }}<br>
+              <strong>Hora:</strong> {{ cita.hora|time:"h:i A" }}<br>
+              <strong>Estado:</strong>
+              {% if cita.estado == 'confirmada' %}✅ Confirmada
+              {% elif cita.estado == 'cancelada' %}❌ Cancelada
+              {% else %}⏳ Pendiente de confirmación{% endif %}
+            </p>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p style="text-align:center; color:#777;">No encontramos citas con ese teléfono. Verifica que esté escrito igual a como lo diste al agendar.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
