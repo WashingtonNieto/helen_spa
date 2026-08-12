@@ -1,0 +1,32 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Servicios{% endblock %}
+{% block nav_servicios %}activo{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Servicios</h2>
+      <p>Conoce todos nuestros tratamientos corporales y de relajación.</p>
+    </div>
+    <div class="grid-servicios">
+      {% for servicio in servicios %}
+      <div class="card-servicio">
+        <div class="icono">{{ servicio.icono }}</div>
+        <h3>{{ servicio.nombre }}</h3>
+        <p>{{ servicio.descripcion }}</p>
+        <div class="meta">
+          Duración aprox: {{ servicio.duracion_minutos }} min
+          {% if servicio.precio %} &middot; ${{ servicio.precio }}{% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <p>Aún no hay servicios registrados.</p>
+      {% endfor %}
+    </div>
+    <div style="text-align:center; margin-top: 34px;">
+      <a href="{% url 'spa:agendamiento' %}" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff;">Agendar una cita</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

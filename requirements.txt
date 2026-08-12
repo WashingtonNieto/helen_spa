@@ -1,0 +1,7 @@
+Django>=5.2,<6.0
+Pillow>=10.0
+python-dotenv>=1.0
+
+# Descomenta la siguiente línea solo si vas a usar MySQL en producción
+# (requiere las librerías de desarrollo de MySQL instaladas en el sistema)
+# mysqlclient>=2.2

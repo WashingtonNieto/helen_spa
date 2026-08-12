@@ -1,0 +1,28 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Galería{% endblock %}
+{% block nav_galeria %}activo{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Galería</h2>
+      <p>Un vistazo a nuestro espacio y tratamientos.</p>
+    </div>
+
+    {% if fotos %}
+    <div class="grid-galeria">
+      {% for foto in fotos %}
+      <div class="galeria-item">
+        <img src="{{ foto.imagen.url }}" alt="{{ foto.titulo|default:'Foto de Helen Spa' }}">
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="galeria-vacio">
+      <p>Aún no se han cargado fotos. Súbelas desde el panel de administración (sección Galería de fotos).</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "spa/base.html" %}
+{% block titulo %}Panel de citas{% endblock %}
+
+{% block contenido %}
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Citas agendadas</h2>
+      <p>
+        Sesión iniciada como <strong>{{ request.user.username }}</strong> ·
+        <a href="{% url 'spa:panel_logout' %}" style="color: var(--dorado);">Cerrar sesión</a>
+      </p>
+    </div>
+
+    <form method="get" style="display:flex; gap:14px; flex-wrap:wrap; align-items:end; justify-content:center; margin-bottom: 30px;">
+      <div class="campo" style="margin-bottom:0;">
+        <label for="fecha">Filtrar por fecha</label>
+        <input type="date" id="fecha" name="fecha" value="{{ fecha_filtro }}">
+      </div>
+      <div class="campo" style="margin-bottom:0;">
+        <label for="estado">Filtrar por estado</label>
+        <select id="estado" name="estado">
+          <option value="">Todos</option>
+          {% for valor, etiqueta in estados %}
+          <option value="{{ valor }}" {% if valor == estado_filtro %}selected{% endif %}>{{ etiqueta }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-dorado" style="border-color: var(--verde-oscuro); background: var(--verde-oscuro); color:#fff;">Filtrar</button>
+      <a href="{% url 'spa:panel_citas' %}" class="btn btn-outline" style="border-color: var(--verde-oscuro); color: var(--verde-oscuro);">Limpiar</a>
+    </form>
+
+    {% if citas %}
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse: collapse; background:#fff; box-shadow: var(--sombra); border-radius: 10px; overflow:hidden;">
+        <thead>
+          <tr style="background: var(--verde-oscuro); color:#fff; text-align:left;">
+            <th style="padding:12px;">Cliente</th>
+            <th style="padding:12px;">Servicio</th>
+            <th style="padding:12px;">Fecha</th>
+            <th style="padding:12px;">Hora</th>
+            <th style="padding:12px;">Teléfono</th>
+            <th style="padding:12px;">Estado</th>
+            <th style="padding:12px;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cita in citas %}
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding:12px;">{{ cita.nombre_cliente }}</td>
+            <td style="padding:12px;">{{ cita.servicio.nombre }}</td>
+            <td style="padding:12px;">{{ cita.fecha|date:"d/m/Y" }}</td>
+            <td style="padding:12px;">{{ cita.hora|time:"h:i A" }}</td>
+            <td style="padding:12px;">{{ cita.telefono }}</td>
+            <td style="padding:12px;">
+              {% if cita.estado == 'confirmada' %}✅ Confirmada
+              {% elif cita.estado == 'cancelada' %}❌ Cancelada
+              {% else %}⏳ Pendiente{% endif %}
+            </td>
+            <td style="padding:12px; white-space:nowrap;">
+              {% if cita.estado != 'confirmada' %}
+              <form method="post" action="{% url 'spa:cambiar_estado_cita' cita.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="estado" value="confirmada">
+                <input type="hidden" name="fecha_filtro" value="{{ fecha_filtro }}">
+                <input type="hidden" name="estado_filtro" value="{{ estado_filtro }}">
+                <button type="submit" style="border:none; background:#2f5843; color:#fff; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Confirmar</button>
+              </form>
+              {% endif %}
+              {% if cita.estado != 'cancelada' %}
+              <form method="post" action="{% url 'spa:cambiar_estado_cita' cita.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="estado" value="cancelada">
+                <input type="hidden" name="fecha_filtro" value="{{ fecha_filtro }}">
+                <input type="hidden" name="estado_filtro" value="{{ estado_filtro }}">
+                <button type="submit" style="border:none; background:#a83232; color:#fff; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:0.8rem;">Cancelar</button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <p style="text-align:center; color:#777;">No hay citas que coincidan con el filtro seleccionado.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
