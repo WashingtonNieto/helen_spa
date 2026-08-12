@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Si la petición no entra directamente a la carpeta public, redirigir a public/
+    RewriteCond %{REQUEST_URI} !^/helen_spa/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
